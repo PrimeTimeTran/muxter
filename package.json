@@ -1,8 +1,8 @@
 {
   "name": "@primetimetran/muxter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
-  "main": "./index.mjs",
+  "main": "./dist/Turboship/index.js",
   "type": "module",
   "scripts": {
     "build": "babel src -d dist",
