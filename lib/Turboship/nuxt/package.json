@@ -1,0 +1,42 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "nuxt": "^3.8.0",
+    "vue": "^3.3.7",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "flowbite": "^2.1.1",
+    "@faker-js/faker": "^8.2.0",
+    "@formkit/nuxt": "^1.2.2",
+    "@formkit/themes": "^1.2.2",
+    "@formkit/vue": "^1.3.0-c4d1235",
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@nuxt/content": "^2.9.0",
+    "@nuxtjs/color-mode": "^3.3.0",
+    "@nuxtjs/tailwindcss": "^6.9.4",
+    "@tailwindcss/typography": "^0.5.10",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "chalk": "^5.3.0",
+    "nuxt-mongoose": "^1.0.3",
+    "zod": "^3.22.4",
+    "jsonwebtoken": "^9.0.2",
+    "vue3-toastify": "^0.1.14",
+    "bcrypt": "^5.1.1"
+  }
+}
