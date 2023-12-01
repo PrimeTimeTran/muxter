@@ -1,5 +1,11 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LMS = void 0;
 // https://www.bezkoder.com/mongodb-many-to-many-mongoose/#Mongoose_Many-to-Many_Relationship_example
-export var LMS = [{
+const LMS = exports.LMS = [{
   name: 'wizard',
   label: 'Wizard',
   plural: 'wizards',
@@ -125,13 +131,13 @@ export var LMS = [{
       multiselect: false,
       placeholder: 'Select apparition',
       enumerators: {
-        "true": 'Yes',
-        "false": 'No'
+        true: 'Yes',
+        false: 'No'
       }
     },
     fanScore: {
       type: 'number',
-      "default": 10,
+      default: 10,
       label: 'Fan Score',
       required: false,
       placeholder: '10'

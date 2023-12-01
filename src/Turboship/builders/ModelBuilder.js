@@ -1,5 +1,5 @@
 import path from 'path'
-import { camelize, getType, capitalize } from '../helpers.mjs'
+import { camelize, getType, capitalize } from '../helpers.js'
 
 export class ModelBuilder {
   constructor(entities, options) {

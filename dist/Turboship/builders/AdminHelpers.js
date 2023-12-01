@@ -1,42 +1,102 @@
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-import { capitalize, colors } from '../helpers.mjs';
-export function buildOptions(obj) {
-  var string = '{\n';
-  for (var key in obj) {
-    var newVal = typeof obj[key] === 'string' ? capitalize(obj[key]) : capitalize(obj[key].val);
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.buildEntityForm = buildEntityForm;
+exports.buildEntityFormInput = buildEntityFormInput;
+exports.buildEntityFormInputs = buildEntityFormInputs;
+exports.buildEnumeratorHelpers = buildEnumeratorHelpers;
+exports.buildForm = buildForm;
+exports.buildOptions = buildOptions;
+exports.buildSortFields = void 0;
+exports.buildTableHeaders = buildTableHeaders;
+exports.buildTableRows = buildTableRows;
+exports.buildTabs = buildTabs;
+var _helpers = require("../helpers.js");
+function buildOptions(obj) {
+  let string = '{\n';
+  for (const key in obj) {
+    const newVal = typeof obj[key] === 'string' ? (0, _helpers.capitalize)(obj[key]) : (0, _helpers.capitalize)(obj[key].val);
     if (obj.hasOwnProperty(key)) {
-      string += "".concat(key, ": '").concat(newVal, "',\n");
+      string += `${key}: '${newVal}',\n`;
     }
   }
   return string += '}';
 }
-export function buildEntityFormInput(key, field) {
+function buildEntityFormInput(key, field) {
   switch (field.type) {
     case 'string':
-      return "\n      <div class=\"item\">\n        <AdminFormField\n          type=\"text\"\n          name=\"".concat(key, "\"\n          label=\"").concat(field.label || field.name || '', "\"\n          placeholder=\"").concat(field.placeholder, "\"\n          :validation=\"searching ? '' : '").concat(field.required ? 'required' : '', "'\"\n        />\n      </div>");
+      return `
+      <div class="item">
+        <AdminFormField
+          type="text"
+          name="${key}"
+          label="${field.label || field.name || ''}"
+          placeholder="${field.placeholder}"
+          :validation="searching ? '' : '${field.required ? 'required' : ''}'"
+        />
+      </div>`;
     case 'enumerator':
-      return "\n      <div class=\"item\">\n        <AdminFormField\n          name=\"".concat(key, "\"\n          type=\"select\"\n          label=\"").concat(field.label || field.name || '', "\"\n          placeholder=\"").concat(field.placeholder, "\"\n          :options=\"").concat(buildOptions(field.enumerators), "\"\n          :multiple=\"").concat(field.multiselect || 'searching', "\"\n          :validation=\"searching ? '' : '").concat(field.required ? 'required' : '', "'\"\n        />\n      </div>");
+      return `
+      <div class="item">
+        <AdminFormField
+          name="${key}"
+          type="select"
+          label="${field.label || field.name || ''}"
+          placeholder="${field.placeholder}"
+          :options="${buildOptions(field.enumerators)}"
+          :multiple="${field.multiselect || 'searching'}"
+          :validation="searching ? '' : '${field.required ? 'required' : ''}'"
+        />
+      </div>`;
     case 'number':
-      return "\n      <div class=\"item\">\n        <AdminFormField\n          name=\"".concat(key, "\"\n          type=\"number\"\n          min=\"").concat(field.min, "\"\n          max=\"").concat(field.max, "\"\n          label=\"").concat(field.label || field.name || '', "\"\n          placeholder=\"").concat(field.placeholder, "\"\n          :validation=\"searching ? '' : '").concat(field.required ? 'required' : '', "'\"\n          \n        />\n      </div>");
+      return `
+      <div class="item">
+        <AdminFormField
+          name="${key}"
+          type="number"
+          min="${field.min}"
+          max="${field.max}"
+          label="${field.label || field.name || ''}"
+          placeholder="${field.placeholder}"
+          :validation="searching ? '' : '${field.required ? 'required' : ''}'"
+          
+        />
+      </div>`;
     case 'boolean':
-      return "\n      <div class=\"item\">\n        <AdminFormField\n          name=\"".concat(key, "\"\n          type=\"select\"\n          label=\"").concat(field.label || field.name || '', "\"\n          placeholder=\"").concat(field.placeholder, "\"\n          :options=\"").concat(buildOptions(field.enumerators), "\"\n        />\n      </div>");
+      return `
+      <div class="item">
+        <AdminFormField
+          name="${key}"
+          type="select"
+          label="${field.label || field.name || ''}"
+          placeholder="${field.placeholder}"
+          :options="${buildOptions(field.enumerators)}"
+        />
+      </div>`;
     case 'date':
-      return "\n      <div class=\"item\">\n        <AdminFormField\n          name=\"".concat(key, "\"\n          type=\"select\"\n          :multiple=\"searching\"\n          label=\"").concat(field.label || field.name || '', "\"\n          :placeholder=\"searching ? 'Select house/houses' : 'Select placeholder'\"\n          :validation=\"searching ? '' : '").concat(field.required ? 'required' : '', "'\"\n          help=\"Select all that apply by holding command (macOS) or control (PC).\"\n        />\n      </div>");
+      return `
+      <div class="item">
+        <AdminFormField
+          name="${key}"
+          type="select"
+          :multiple="searching"
+          label="${field.label || field.name || ''}"
+          :placeholder="searching ? 'Select house/houses' : 'Select placeholder'"
+          :validation="searching ? '' : '${field.required ? 'required' : ''}'"
+          help="Select all that apply by holding command (macOS) or control (PC)."
+        />
+      </div>`;
     default:
       break;
   }
 }
-export function buildEntityFormInputs(e) {
-  var keys = Object.keys(e.fields);
-  var customSort = function customSort(a, b) {
-    var typeA = e.fields[a].type === 'enumerator';
-    var typeB = e.fields[b].type === 'enumerator';
+function buildEntityFormInputs(e) {
+  const keys = Object.keys(e.fields);
+  const customSort = (a, b) => {
+    const typeA = e.fields[a].type === 'enumerator';
+    const typeB = e.fields[b].type === 'enumerator';
     if (typeA === typeB) {
       return 0;
     }
@@ -48,96 +108,230 @@ export function buildEntityFormInputs(e) {
     }
   };
   keys.sort(customSort);
-  return keys.map(function (key) {
+  return keys.map(key => {
     return buildEntityFormInput(key, e.fields[key]);
   }).join('');
 }
-export function buildEntityForm(e) {
-  return "<script setup>\n    import { reset } from '@formkit/core'\n    const props = defineProps([\n      'searching',\n      'fetchFiltered".concat(capitalize(e.plural), "',\n      'createForm',\n      'clear',\n    ])\n    const { add").concat(capitalize(e.name), " } = use").concat(e.pluralL, "()\n\n    async function submit(fields) {\n      if (props.searching) {\n        await props.fetchFiltered").concat(capitalize(e.name), "s(fields)\n        return\n      }\n      const ").concat(e.name, " = add").concat(capitalize(e.name), "(fields)\n      if (").concat(e.name, ") {\n        reset('").concat(e.name, "Form')\n      }\n    }\n    </script>\n\n    <template>\n    <div class=\"relative\">\n      <FormKit\n        id=\"").concat(e.name, "Form\"\n        type=\"form\"\n        @submit=\"submit\"\n        :actions=\"false\"\n        #default=\"{ value }\"\n        :classes=\"{\n          help: 'dark:text-white',\n          message: 'text-red-500 dark:text-red-300 absolute',\n        }\"\n      >\n        <div\n          id=\"").concat(e.label, "\"\n          class=\"form-items-container grid grid-cols-4 gap-x-7 gap-y-7 px-3\"\n        >\n          ").concat(buildEntityFormInputs(e), "\n          </div>\n          <div class=\"flex flex-row space-x-1 mt-6\">\n            <FormKit\n              type=\"button\"\n              label=\"Clear\"\n              @click=\"clear\"\n              :classes=\"{\n                outer: 'bg-red-500 rounded basis-1/4',\n                input:\n                  'flex flex-grow justify-center text-white dark:text-white p-3',\n                wrapper: 'flex flex-grow text-center',\n              }\"\n            />\n            <FormKit\n              type=\"submit\"\n              :disabled=\"disabled\"\n              :classes=\"{\n                outer: 'bg-green-500 rounded basis-3/4',\n                input:\n                  'flex flex-grow justify-center text-white dark:text-white p-3',\n                wrapper: 'flex flex-grow text-center',\n              }\"\n            >\n              Submit\n            </FormKit>\n        </div>\n      </FormKit>\n      </div>\n    </template>");
-}
-export function buildForm(e) {
-  return "<script setup>\n      const props = defineProps(['searching', 'fetchFiltered".concat(capitalize(e.plural), "', 'createForm'])\n      const num = ref(0)\n      const clearForm = () => {\n        num.value = num.value + 1\n      }\n      </script>\n      <template>\n        <div\n          class=\"w-100 dark:bg-neutral-950 p-3 main-container\"\n          :class=\"{ hidden: !searching && !createForm }\"\n        >\n          <TransitionGroup\n            name=\"fade-move\"\n            class=\"container\"\n          >\n            <div :key=\"num\">\n              <Admin").concat(e.pluralL, "EntityForm\n                :clear=\"clearForm\"\n                :searching=\"searching\"\n                :fetchFiltered").concat(e.pluralL, "=\"fetchFiltered").concat(e.pluralL, "\"\n              />\n            </div>\n          </TransitionGroup>\n        </div>\n      </template>");
-}
-export function buildTableRows(e) {
-  var string = '';
-  var _iterator = _createForOfIteratorHelper(e.tableFields),
-    _step;
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var _e$fields$key;
-      var key = _step.value;
-      var fieldType = (_e$fields$key = e.fields[key]) === null || _e$fields$key === void 0 ? void 0 : _e$fields$key.type;
-      if (key === 'email') {
-        string += "\n      <th class=\"flex gap-3 px-3 py-4 font-normal text-gray-900\">\n      <div class=\"relative h-10 w-10\">\n        <img\n          :src=\"".concat(e.name, ".avatarUrl || 'https://i.pravatar.cc/150?img=4'\"\n          class=\"h-full rounded-full object-cover object-center\"\n        />\n        <span\n          class=\"absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white\"\n        />\n      </div>\n      <div class=\"text-sm\">\n        <span\n          v-text=\"").concat(e.name, ".firstName\"\n          class=\"font-medium text-gray-700 dark:text-white\"\n        />\n        <div>\n          <span\n            v-text=\"").concat(e.name, ".email\"\n            class=\"text-gray-400\"\n          />\n        </div>\n      </div>\n    </th>");
-      } else if (key !== 'firstName') {
-        if (fieldType == 'enumerator' && e.fields[key].multiselect) {
-          string += "<td\n          class=\"px-6 py-4\"\n          v-if=\"".concat(e.name, ".").concat(key, "\"\n        >\n          <div class=\"flex justify-center gap-1\">\n            <span\n              v-for=\"(item, idx) of ").concat(e.name, ".").concat(key, "\"\n              v-text=\"item\"\n              class=\"inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-white\"\n              :class=\"get").concat(capitalize(key), "Color('bg', item)\"\n            />\n          </div>\n        </td>");
-        } else if (fieldType == 'enumerator') {
-          string += "<td\n          class=\"px-6 py-4\"\n          v-if=\"".concat(e.name, ".").concat(key, "\"\n        >\n          <span\n            class=\"inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-slate-900 px-2 py-1 text-xs font-semibold\"\n            :class=\"get").concat(capitalize(key), "Color('text', ").concat(e.name, ".").concat(key, ")\"\n          >\n            <span\n              class=\"h-1.5 w-1.5 rounded-full\"\n              :class=\"get").concat(capitalize(key), "Color('bg', ").concat(e.name, ".").concat(key, ")\"\n            />\n            <span v-text=\"").concat(e.name, ".").concat(key, "\" />\n          </span>\n        </td>");
-        } else {
-          string += "\n        <td class=\"px-3 py-4\">\n          <div class=\"text-sm\">\n            <div\n              v-text=\"".concat(e.name, ".").concat(key, "\"\n              class=\"font-medium text-gray-700 dark:text-white\"\n            />\n          </div>\n        </td>");
-        }
+function buildEntityForm(e) {
+  return `<script setup>
+    import { reset } from '@formkit/core'
+    const props = defineProps([
+      'searching',
+      'fetchFiltered${(0, _helpers.capitalize)(e.plural)}',
+      'createForm',
+      'clear',
+    ])
+    const { add${(0, _helpers.capitalize)(e.name)} } = use${e.pluralL}()
+
+    async function submit(fields) {
+      if (props.searching) {
+        await props.fetchFiltered${(0, _helpers.capitalize)(e.name)}s(fields)
+        return
+      }
+      const ${e.name} = add${(0, _helpers.capitalize)(e.name)}(fields)
+      if (${e.name}) {
+        reset('${e.name}Form')
       }
     }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
-  return string;
+    </script>
+
+    <template>
+    <div class="relative">
+      <FormKit
+        id="${e.name}Form"
+        type="form"
+        @submit="submit"
+        :actions="false"
+        #default="{ value }"
+        :classes="{
+          help: 'dark:text-white',
+          message: 'text-red-500 dark:text-red-300 absolute',
+        }"
+      >
+        <div
+          id="${e.label}"
+          class="form-items-container grid grid-cols-4 gap-x-7 gap-y-7 px-3"
+        >
+          ${buildEntityFormInputs(e)}
+          </div>
+          <div class="flex flex-row space-x-1 mt-6">
+            <FormKit
+              type="button"
+              label="Clear"
+              @click="clear"
+              :classes="{
+                outer: 'bg-red-500 rounded basis-1/4',
+                input:
+                  'flex flex-grow justify-center text-white dark:text-white p-3',
+                wrapper: 'flex flex-grow text-center',
+              }"
+            />
+            <FormKit
+              type="submit"
+              :disabled="disabled"
+              :classes="{
+                outer: 'bg-green-500 rounded basis-3/4',
+                input:
+                  'flex flex-grow justify-center text-white dark:text-white p-3',
+                wrapper: 'flex flex-grow text-center',
+              }"
+            >
+              Submit
+            </FormKit>
+        </div>
+      </FormKit>
+      </div>
+    </template>`;
 }
-export function buildTabs(e, prop) {
-  // [ ] Add custom enumerator color for each item.
-  var houseKeys = Object.entries(e.fields[prop].enumerators);
-  var keyMap = {};
-  houseKeys.forEach(function (_ref, idx) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      k = _ref2[0],
-      v = _ref2[1];
-    return keyMap[k] = colors[idx];
-  });
-  function makeKey(k, v) {
-    return "".concat(k.toLowerCase(), ": `${field}-").concat(v.color ? v.color : keyMap[k], "-${weight}`,");
-  }
-  return "{".concat(houseKeys.map(function (_ref3) {
-    var _ref4 = _slicedToArray(_ref3, 2),
-      k = _ref4[0],
-      v = _ref4[1];
-    return makeKey(k, v);
-  }).join(''), "}");
+function buildForm(e) {
+  return `<script setup>
+      const props = defineProps(['searching', 'fetchFiltered${(0, _helpers.capitalize)(e.plural)}', 'createForm'])
+      const num = ref(0)
+      const clearForm = () => {
+        num.value = num.value + 1
+      }
+      </script>
+      <template>
+        <div
+          class="w-100 dark:bg-neutral-950 p-3 main-container"
+          :class="{ hidden: !searching && !createForm }"
+        >
+          <TransitionGroup
+            name="fade-move"
+            class="container"
+          >
+            <div :key="num">
+              <Admin${e.pluralL}EntityForm
+                :clear="clearForm"
+                :searching="searching"
+                :fetchFiltered${e.pluralL}="fetchFiltered${e.pluralL}"
+              />
+            </div>
+          </TransitionGroup>
+        </div>
+      </template>`;
 }
-export function buildTableHeaders(e) {
-  var string = '';
-  var _iterator2 = _createForOfIteratorHelper(e.tableFields),
-    _step2;
-  try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-      var key = _step2.value;
-      if (key == 'firstName') continue;
-      string += "<th\n      scope=\"col\"\n      @click=\"toggleSort('".concat(key, "')\"\n      class=\"px-6 py-4 font-medium text-gray-500 dark:text-gray-600 truncate\"\n    >\n      ").concat(key, " <span v-text=\"getSortingIcon('").concat(key, "')\" />\n    </th>");
+function buildTableRows(e) {
+  let string = '';
+  for (const key of e.tableFields) {
+    var _e$fields$key;
+    const fieldType = (_e$fields$key = e.fields[key]) == null ? void 0 : _e$fields$key.type;
+    if (key === 'email') {
+      string += `
+      <th class="flex gap-3 px-3 py-4 font-normal text-gray-900">
+      <div class="relative h-10 w-10">
+        <img
+          :src="${e.name}.avatarUrl || 'https://i.pravatar.cc/150?img=4'"
+          class="h-full rounded-full object-cover object-center"
+        />
+        <span
+          class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"
+        />
+      </div>
+      <div class="text-sm">
+        <span
+          v-text="${e.name}.firstName"
+          class="font-medium text-gray-700 dark:text-white"
+        />
+        <div>
+          <span
+            v-text="${e.name}.email"
+            class="text-gray-400"
+          />
+        </div>
+      </div>
+    </th>`;
+    } else if (key !== 'firstName') {
+      if (fieldType == 'enumerator' && e.fields[key].multiselect) {
+        string += `<td
+          class="px-6 py-4"
+          v-if="${e.name}.${key}"
+        >
+          <div class="flex justify-center gap-1">
+            <span
+              v-for="(item, idx) of ${e.name}.${key}"
+              v-text="item"
+              class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-white"
+              :class="get${(0, _helpers.capitalize)(key)}Color('bg', item)"
+            />
+          </div>
+        </td>`;
+      } else if (fieldType == 'enumerator') {
+        string += `<td
+          class="px-6 py-4"
+          v-if="${e.name}.${key}"
+        >
+          <span
+            class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-slate-900 px-2 py-1 text-xs font-semibold"
+            :class="get${(0, _helpers.capitalize)(key)}Color('text', ${e.name}.${key})"
+          >
+            <span
+              class="h-1.5 w-1.5 rounded-full"
+              :class="get${(0, _helpers.capitalize)(key)}Color('bg', ${e.name}.${key})"
+            />
+            <span v-text="${e.name}.${key}" />
+          </span>
+        </td>`;
+      } else {
+        string += `
+        <td class="px-3 py-4">
+          <div class="text-sm">
+            <div
+              v-text="${e.name}.${key}"
+              class="font-medium text-gray-700 dark:text-white"
+            />
+          </div>
+        </td>`;
+      }
     }
-  } catch (err) {
-    _iterator2.e(err);
-  } finally {
-    _iterator2.f();
   }
   return string;
 }
-export var buildSortFields = function buildSortFields(e) {
-  var string = '{';
-  for (var key in e.fields) {
+function buildTabs(e, prop) {
+  // [ ] Add custom enumerator color for each item.
+  const houseKeys = Object.entries(e.fields[prop].enumerators);
+  const keyMap = {};
+  houseKeys.forEach(([k, v], idx) => keyMap[k] = _helpers.colors[idx]);
+  function makeKey(k, v) {
+    return `${k.toLowerCase()}: \`\${field}-${v.color ? v.color : keyMap[k]}-\${weight}\`,`;
+  }
+  return `{${houseKeys.map(([k, v]) => makeKey(k, v)).join('')}}`;
+}
+function buildTableHeaders(e) {
+  let string = '';
+  for (const key of e.tableFields) {
+    if (key == 'firstName') continue;
+    string += `<th
+      scope="col"
+      @click="toggleSort('${key}')"
+      class="px-6 py-4 font-medium text-gray-500 dark:text-gray-600 truncate"
+    >
+      ${key} <span v-text="getSortingIcon('${key}')" />
+    </th>`;
+  }
+  return string;
+}
+const buildSortFields = e => {
+  let string = '{';
+  for (const key in e.fields) {
     if (Object.hasOwnProperty.call(e.fields, key)) {
-      string += "".concat(key, ": ref('ASC'),");
+      string += `${key}: ref('ASC'),`;
     }
   }
   return string + '}';
 };
-export function buildEnumeratorHelpers(e) {
-  var enums = e.tableFields.filter(function (name) {
+exports.buildSortFields = buildSortFields;
+function buildEnumeratorHelpers(e) {
+  const enums = e.tableFields.filter(name => {
     var _e$fields$name;
-    return ((_e$fields$name = e.fields[name]) === null || _e$fields$name === void 0 ? void 0 : _e$fields$name.type) === 'enumerator';
+    return ((_e$fields$name = e.fields[name]) == null ? void 0 : _e$fields$name.type) === 'enumerator';
   });
-  return enums.map(function (item) {
-    return "function get".concat(capitalize(item), "Color(field, key) {\n          ").concat(e.name == 'wizard' && item == 'house' ? 'key.toLowerCase()' : '', "\n          const weight = field == 'bg' ? 500 : 400\n          const kolors = ").concat(buildTabs(e, item), "\n            return {\n              [kolors[key]]: true,\n            }\n        }");
-  }).join('');
+  return enums.map(item => `function get${(0, _helpers.capitalize)(item)}Color(field, key) {
+          ${e.name == 'wizard' && item == 'house' ? 'key.toLowerCase()' : ''}
+          const weight = field == 'bg' ? 500 : 400
+          const kolors = ${buildTabs(e, item)}
+            return {
+              [kolors[key]]: true,
+            }
+        }`).join('');
 }

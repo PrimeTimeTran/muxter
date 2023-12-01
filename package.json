@@ -1,12 +1,19 @@
 {
   "name": "@primetimetran/muxter",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "",
-  "main": "./dist/Turboship/index.js",
+  "homepage": "https://www.npmjs.com/package/@primetimetran/muxter",
+  "main": "./index.mjs",
   "type": "module",
   "scripts": {
     "build": "babel src -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./dist/Turboship/index.js"
+    }
   },
   "keywords": [],
   "author": "",
@@ -14,7 +21,7 @@
   "dependencies": {
     "archiver": "^6.0.1",
     "bcryptjs": "^2.4.3",
-    "chalk": "^5.3.0",
+    "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "fs-extra": "^11.1.1",
     "jsonwebtoken": "^9.0.2",
@@ -24,9 +31,12 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@babel/cli": "^7.23.4",
     "@babel/core": "^7.23.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
     "@babel/preset-env": "^7.23.5",
-    "@types/bcryptjs": "^2.4.6"
+    "@types/bcryptjs": "^2.4.6",
+    "babel-plugin-module-resolver": "^5.0.0"
   },
   "repository": {
     "type": "git",

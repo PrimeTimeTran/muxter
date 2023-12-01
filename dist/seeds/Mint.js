@@ -1,4 +1,10 @@
-export var Mint = [{
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Mint = void 0;
+const Mint = exports.Mint = [{
   _id: 'fb80c35deae8c1d25f4acbbd',
   name: 'user',
   plural: 'users',

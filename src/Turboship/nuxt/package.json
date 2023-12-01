@@ -32,7 +32,6 @@
     "@nuxtjs/tailwindcss": "^6.9.4",
     "@tailwindcss/typography": "^0.5.10",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "chalk": "^5.3.0",
     "nuxt-mongoose": "^1.0.3",
     "zod": "^3.22.4",
     "jsonwebtoken": "^9.0.2",

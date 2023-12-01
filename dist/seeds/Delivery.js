@@ -1,5 +1,11 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Delivery = void 0;
 // https://www.bezkoder.com/mongodb-many-to-many-mongoose/#Mongoose_Many-to-Many_Relationship_example
-export var Delivery = [{
+const Delivery = exports.Delivery = [{
   _id: 'fb80c35deae8c1d25f4acbbd',
   name: 'user',
   plural: 'users',

@@ -1,19 +1,26 @@
-export function loadJS(url) {
-  var async = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var loaded = null;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ensureLoad = ensureLoad;
+exports.loadJS = loadJS;
+exports.scriptUrls = void 0;
+function loadJS(url, async = true) {
+  let loaded = null;
   function loadFile() {
     try {
-      var scriptEle = document.createElement('script');
+      let scriptEle = document.createElement('script');
       scriptEle.setAttribute('src', url);
       scriptEle.setAttribute('type', 'text/javascript');
       scriptEle.setAttribute('async', async);
       document.body.appendChild(scriptEle);
-      scriptEle.addEventListener('load', function () {
+      scriptEle.addEventListener('load', () => {
         console.log('Loaded!');
         if (url === scriptUrls.hotkeys) setupHotkeys();
         loaded = true;
       });
-      scriptEle.addEventListener('error', function (ev) {
+      scriptEle.addEventListener('error', ev => {
         console.log('Error on loading file', ev);
         loaded = false;
         retryLoad();
@@ -33,11 +40,11 @@ export function loadJS(url) {
   }
   loadFile();
 }
-export var scriptUrls = {
+const scriptUrls = exports.scriptUrls = {
   chart: 'https://unpkg.com/hotkeys-js@3.12.0/dist/hotkeys.min.js',
   hotkeys: 'https://unpkg.com/hotkeys-js@3.12.0/dist/hotkeys.min.js'
 };
-export function ensureLoad(url) {
+function ensureLoad(url) {
   if (!process.browser) return;
   console.log('Ensuring load: ', url);
   if (url === scriptUrls.chart && typeof hotkeys === 'undefined') {

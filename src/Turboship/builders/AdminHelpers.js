@@ -1,4 +1,4 @@
-import { capitalize, colors } from '../helpers.mjs'
+import { capitalize, colors } from '../helpers.js'
 
 export function buildOptions(obj) {
   let string = '{\n'

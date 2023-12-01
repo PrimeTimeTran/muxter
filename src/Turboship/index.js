@@ -2,9 +2,9 @@ import chalk from 'chalk'
 import JSZip from 'jszip-sync'
 import { program } from 'commander'
 
-import Framework from './Framework.mjs'
-import seeds from '../seeds/seeds.mjs'
-import { prettify } from './helpers.mjs'
+import Framework from './Framework.js'
+import seeds from '../seeds/seeds.js'
+import { prettify } from './helpers.js'
 
 // 1. Make Turboship wrap JSZip
 // Have Turboship use JSZip to build source files, generate zip, return it

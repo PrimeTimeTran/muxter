@@ -4,7 +4,8 @@ import chalk from 'chalk'
 import { exec } from 'child_process'
 import archiver from 'archiver'
 
-export const log = (field, val, color = 'green') => console.log(chalk[color](field) + val)
+export const log = (field, val, color = 'green') =>
+  console.log(chalk[color](field) + val)
 
 export function fileExt(options) {
   return options.typescript ? 'ts' : 'js'
@@ -103,7 +104,17 @@ export function getType(name, type, key) {
   }
 }
 
-export const colors = ['red', 'pink', 'purple', 'green', 'indigo', 'blue', 'teal', 'yellow', 'teal']
+export const colors = [
+  'red',
+  'pink',
+  'purple',
+  'green',
+  'indigo',
+  'blue',
+  'teal',
+  'yellow',
+  'teal',
+]
 
 export function makeDirRecursive(fullPath) {
   fs.mkdirSync(fullPath, { recursive: true }, (err) => {
