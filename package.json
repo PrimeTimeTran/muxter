@@ -1,10 +1,11 @@
 {
   "name": "@primetimetran/muxter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
-  "main": "./index.js",
+  "main": "./index.mjs",
   "type": "module",
   "scripts": {
+    "build": "babel src -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -23,6 +24,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
     "@types/bcryptjs": "^2.4.6"
   },
   "repository": {

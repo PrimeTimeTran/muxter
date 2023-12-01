@@ -1,5 +1,5 @@
-import { frameworkMap } from './Framework.js'
-import { ModelBuilder, AdminBuilder } from './builders/index.js'
+import { frameworkMap } from './Framework.mjs'
+import { ModelBuilder, AdminBuilder } from './builders/index.mjs'
 
 export default class Generator {
   constructor(e, options, zip) {

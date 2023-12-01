@@ -1,5 +1,5 @@
 import path from 'path'
-import { capitalize } from '../helpers.js'
+import { capitalize } from '../helpers.mjs'
 
 import {
   buildEnumeratorHelpers,
@@ -8,7 +8,7 @@ import {
   buildTableRows,
   buildEntityForm,
   buildForm,
-} from './AdminHelpers.js'
+} from './AdminHelpers.mjs'
 
 export class AdminBuilder {
   constructor(entities, options, zip) {
