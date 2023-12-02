@@ -1,19 +1,34 @@
-import fs from 'fs';
-import path from 'path';
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.frameworkMap = void 0;
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 // import { fileURLToPath } from 'url'
-import Generator from './Generator.js';
+const Generator_js_1 = __importDefault(require("./Generator.js"));
 // let fileName = fileURLToPath(import.meta.url)
 // let dirName = path.dirname(fileName)
 // console.log(fileName)
 // console.log(dirName)
-export default class Framework {
+class Framework {
     constructor(name, options, entities, zip) {
         console.log({
             foo: 'bar',
-            resolving: path.resolve('/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt'),
+            resolving: path_1.default.resolve('/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt'),
         });
         this.name = name;
-        this.framework = frameworkMap[name];
+        this.framework = exports.frameworkMap[name];
         this.zip = zip;
         this.entities = entities;
         this.options = options;
@@ -29,24 +44,27 @@ export default class Framework {
         const basePath = `/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt`;
         console.log({
             current: process.cwd(),
-            usingResolve: path.resolve('/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship'),
+            usingResolve: path_1.default.resolve('/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship'),
             basePath,
         });
         getZippedFolderSync(basePath, this.zip);
         return this.zip;
     }
-    async build() {
-        const entities = Object.values(this.entities);
-        const generator = await new Generator(entities, this.options, this.zip);
-        return await generator.buildGenesis();
+    build() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const entities = Object.values(this.entities);
+            const generator = yield new Generator_js_1.default(entities, this.options, this.zip);
+            return yield generator.buildGenesis();
+        });
     }
 }
+exports.default = Framework;
 function getZippedFolderSync(dir, zip) {
     let allPaths = getFilePathsRecursiveSync(dir);
     zip.sync(() => {
         for (let filePath of allPaths) {
-            let addPath = path.relative(path.join(dir, '..'), filePath);
-            let data = fs.readFileSync(filePath);
+            let addPath = path_1.default.relative(path_1.default.join(dir, '..'), filePath);
+            let data = fs_1.default.readFileSync(filePath);
             zip.file(addPath, data);
         }
     });
@@ -58,13 +76,13 @@ function getFilePathsRecursiveSync(dir) {
     var results = [];
     if (!dir)
         return results;
-    let list = fs.readdirSync(dir);
+    let list = fs_1.default.readdirSync(dir);
     var pending = list.length;
     if (!pending)
         return results;
     for (let file of list) {
-        file = path.resolve(dir, file);
-        let stat = fs.statSync(file);
+        file = path_1.default.resolve(dir, file);
+        let stat = fs_1.default.statSync(file);
         if (stat && stat.isDirectory()) {
             let res = getFilePathsRecursiveSync(file);
             results = results.concat(res);
@@ -77,7 +95,7 @@ function getFilePathsRecursiveSync(dir) {
     }
     return results;
 }
-export const frameworkMap = {
+exports.frameworkMap = {
     nuxt: {
         name: 'nuxt',
         version: '3.8.0',

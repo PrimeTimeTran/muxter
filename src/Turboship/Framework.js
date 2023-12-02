@@ -1,17 +1,23 @@
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
+// import { fileURLToPath } from 'url'
 
 import Generator from './Generator.js'
 
-let fileName = fileURLToPath(import.meta.url)
-let dirName = path.dirname(fileName)
+// let fileName = fileURLToPath(import.meta.url)
+// let dirName = path.dirname(fileName)
 
-console.log(fileName)
-console.log(dirName)
+// console.log(fileName)
+// console.log(dirName)
 
 export default class Framework {
   constructor(name, options, entities, zip) {
+    console.log({
+      foo: 'bar',
+      resolving: path.resolve(
+        '/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt'
+      ),
+    })
     this.name = name
     this.framework = frameworkMap[name]
     this.zip = zip
@@ -28,11 +34,11 @@ export default class Framework {
   }
 
   zipBaseDirectory() {
-    const basePath = `${dirName}/nuxt`
+    const basePath = `/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt`
     console.log({
       current: process.cwd(),
-      resolving: path.resolve(
-        '/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt'
+      usingResolve: path.resolve(
+        '/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship'
       ),
       basePath,
     })
