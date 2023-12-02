@@ -87,6 +87,7 @@ export const frameworkMap = {
             'content',
             'layouts',
             'pages',
+            'pages/Administrator',
             'plugins',
             'server',
             'utils',

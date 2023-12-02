@@ -61,7 +61,7 @@ export class AdminBuilder {
                 return `<p
           class="text-lg truncate text-gray-500 dark:text-white hover:text-green-400 dark:hover:text-green-400"
         >
-          <a href="/admin/${e.plural}">${e.label}</a>
+          <a href="/Administrator/${e.plural}">${e.label}</a>
         </p>`;
             });
         }

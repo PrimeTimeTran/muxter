@@ -33,7 +33,7 @@ function buildAdminUI(entities, options, zip) {
       zip.file(name, content)
     })
 
-    fullPath = `nuxt/pages/Admin/${e.pluralL}`
+    fullPath = `nuxt/pages/Administrator/${e.pluralL}`
 
     let content = admin.buildIndexPage()
     let name = `${fullPath}/index.vue`
