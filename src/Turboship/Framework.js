@@ -1,14 +1,12 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { dirname } from 'path'
 
 import Generator from './Generator.js'
-let filename
-if (!__filename) {
-  filename = fileURLToPath(import.meta.url)
+if (typeof __filename === 'undefined') {
+  global.__filename = fileURLToPath(import.meta.url)
+  global.__dirname = path.dirname(__filename)
 }
-const __dirname = dirname(filename || __filename)
 
 export default class Framework {
   constructor(name, options, entities, zip) {
@@ -28,7 +26,10 @@ export default class Framework {
   }
 
   zipBaseDirectory() {
-    const basePath = `${__dirname}/nuxt`
+    const basePath = `${global.__dirname}/nuxt`
+    console.log({
+      basePath,
+    })
 
     getZippedFolderSync(basePath, this.zip)
     return this.zip
@@ -67,7 +68,11 @@ function getZippedFolderSync(dir, zip) {
 }
 
 function getFilePathsRecursiveSync(dir) {
+  console.log({
+    dir,
+  })
   var results = []
+  if (!dir) return results
   let list = fs.readdirSync(dir)
   var pending = list.length
   if (!pending) return results
