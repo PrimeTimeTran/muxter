@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Turboship = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const jszip_sync_1 = __importDefault(require("jszip-sync"));
 const commander_1 = require("commander");
@@ -79,4 +78,4 @@ class Turboship {
         (0, helpers_js_1.prettify)(this.options.root);
     }
 }
-exports.Turboship = Turboship;
+exports.default = Turboship;

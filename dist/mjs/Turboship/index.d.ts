@@ -1,4 +1,5 @@
-export class Turboship {
+export default Turboship;
+declare class Turboship {
     constructor(entities: any);
     supportedFrameworks: string[];
     zip: any;
