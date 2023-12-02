@@ -1,23 +1,10 @@
 import fs from 'fs'
 import path from 'path'
-// import { fileURLToPath } from 'url'
 
 import Generator from './Generator.js'
 
-// let fileName = fileURLToPath(import.meta.url)
-// let dirName = path.dirname(fileName)
-
-// console.log(fileName)
-// console.log(dirName)
-
 export default class Framework {
   constructor(name, options, entities, zip) {
-    console.log({
-      foo: 'bar',
-      resolving: path.resolve(
-        '/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt'
-      ),
-    })
     this.name = name
     this.framework = frameworkMap[name]
     this.zip = zip
@@ -34,13 +21,21 @@ export default class Framework {
   }
 
   zipBaseDirectory() {
-    const basePath = `/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt`
+    let basePath = `/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt`
+    if (false) {
+      basePath = `/Users/loi/Desktop/work/turboship/muxter/src/Turboship/nuxt`
+    }
+
+    // 12/2/23 - 2.12
+    //   Local netlify dev server files dl no problem
+    //
+    //
+    //
+    //
+    //
     console.log({
-      current: process.cwd(),
-      usingResolve: path.resolve(
-        '/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship'
-      ),
       basePath,
+      current: process.cwd(),
     })
 
     getZippedFolderSync(basePath, this.zip)

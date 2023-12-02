@@ -15,18 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.frameworkMap = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-// import { fileURLToPath } from 'url'
 const Generator_js_1 = __importDefault(require("./Generator.js"));
-// let fileName = fileURLToPath(import.meta.url)
-// let dirName = path.dirname(fileName)
-// console.log(fileName)
-// console.log(dirName)
 class Framework {
     constructor(name, options, entities, zip) {
-        console.log({
-            foo: 'bar',
-            resolving: path_1.default.resolve('/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt'),
-        });
         this.name = name;
         this.framework = exports.frameworkMap[name];
         this.zip = zip;
@@ -41,11 +32,20 @@ class Framework {
         return this.zip;
     }
     zipBaseDirectory() {
-        const basePath = `/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt`;
+        let basePath = `/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt`;
+        if (false) {
+            basePath = `/Users/loi/Desktop/work/turboship/muxter/src/Turboship/nuxt`;
+        }
+        // 12/2/23 - 2.12
+        //   Local netlify dev server files dl no problem
+        //
+        //
+        //
+        //
+        //
         console.log({
-            current: process.cwd(),
-            usingResolve: path_1.default.resolve('/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship'),
             basePath,
+            current: process.cwd(),
         });
         getZippedFolderSync(basePath, this.zip);
         return this.zip;
