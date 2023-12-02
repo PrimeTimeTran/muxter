@@ -1,6 +1,6 @@
 {
   "name": "@primetimetran/muxter",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "",
   "homepage": "https://www.npmjs.com/package/@primetimetran/muxter",
   "main": "./index.mjs",
@@ -11,8 +11,7 @@
   },
   "exports": {
     ".": {
-      "import": "./index.mjs",
-      "require": "./dist/Turboship/index.js"
+      "import": "./index.mjs"
     }
   },
   "keywords": [],
