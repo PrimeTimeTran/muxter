@@ -17,7 +17,7 @@ export default class Framework {
         return this.zip;
     }
     zipBaseDirectory() {
-        let basePath = `/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt`;
+        let basePath = `/var/task/node_modules/@primetimetran/muxter/src/Turboship/nuxt`;
         if (false) {
             basePath = `/Users/loi/Desktop/work/turboship/muxter/src/Turboship/nuxt`;
         }
