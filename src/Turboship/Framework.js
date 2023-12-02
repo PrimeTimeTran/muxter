@@ -1,11 +1,12 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-
 import Generator from './Generator.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+if (typeof __filename === 'undefined') {
+  global.__filename = fileURLToPath(import.meta.url)
+  global.__dirname = path.dirname(__filename)
+}
 
 export default class Framework {
   constructor(name, options, entities, zip) {
