@@ -21,7 +21,7 @@ export default class Framework {
   }
 
   zipBaseDirectory() {
-    const basePath = `${path.resolve()}/nuxt`
+    const basePath = `${__dirname}/nuxt`
     console.log({
       basePath,
     })
