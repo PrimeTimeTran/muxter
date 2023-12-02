@@ -1,7 +1,14 @@
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
 import Generator from './Generator.js'
+
+let fileName = fileURLToPath(import.meta.url)
+let dirName = path.dirname(fileName)
+
+console.log(fileName)
+console.log(dirName)
 
 export default class Framework {
   constructor(name, options, entities, zip) {
@@ -21,8 +28,12 @@ export default class Framework {
   }
 
   zipBaseDirectory() {
-    const basePath = `${__dirname}/nuxt`
+    const basePath = `${dirName}/nuxt`
     console.log({
+      current: process.cwd(),
+      resolving: path.resolve(
+        '/var/task/netlify/functions/build-muxter/node_modules/@primetimetran/muxter/src/Turboship/nuxt'
+      ),
       basePath,
     })
 
@@ -33,21 +44,6 @@ export default class Framework {
     const entities = Object.values(this.entities)
     const generator = await new Generator(entities, this.options, this.zip)
     return await generator.buildGenesis()
-  }
-
-  setup() {
-    const framework = frameworkMap[this.name]
-    const root = '/tmp/turboship/' + framework.name
-    try {
-      fs.mkdirSync(root, { recursive: true })
-      framework.rootDirectories.forEach((dir) => {
-        const fullPath = `${root}/${dir}`
-        try {
-          fs.mkdirSync(fullPath, { recursive: true })
-          log('Create: ', fullPath, 'yellow')
-        } catch (err) {}
-      })
-    } catch (err) {}
   }
 }
 

@@ -10,7 +10,7 @@ import { prettify } from './helpers.js'
 // Have Turboship use JSZip to build source files, generate zip, return it
 // Impossible to format?
 
-export default class Turboship {
+export class Turboship {
   supportedFrameworks = ['flutter', 'nuxt', 'rn']
   constructor(entities) {
     this.zip = new JSZip()

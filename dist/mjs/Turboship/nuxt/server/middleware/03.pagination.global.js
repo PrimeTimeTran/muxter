@@ -1,0 +1,13 @@
+import { z } from 'zod';
+const schema = z.object({
+    page: z.string().optional(),
+    limit: z.string().optional(),
+});
+export default defineEventHandler(async (e) => {
+    const query = schema.parse(getQuery(e));
+    const page = Number(query.page || 1);
+    let limit = parseInt(query.limit || '10');
+    limit = typeof query['limit'] === 'string' ? parseInt(query['limit']?.split('?')[0]) : 10;
+    e.context.page = page;
+    e.context.limit = limit;
+});
