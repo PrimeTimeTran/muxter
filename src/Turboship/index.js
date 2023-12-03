@@ -6,10 +6,6 @@ import Framework from './Framework.js'
 import seeds from '../seeds/seeds.js'
 import { prettify } from './helpers.js'
 
-// 1. Make Turboship wrap JSZip
-// Have Turboship use JSZip to build source files, generate zip, return it
-// Impossible to format?
-
 class Turboship {
   supportedFrameworks = ['flutter', 'nuxt', 'rn']
   constructor(entities) {

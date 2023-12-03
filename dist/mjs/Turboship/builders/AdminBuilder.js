@@ -467,7 +467,7 @@ export class AdminBuilder {
         fetchPage,
         meta,
         add${this.e.label},
-        fetchFiltered${this.e.label}s,
+        fetchFiltered${this.e.pluralL},
       }
     }`;
         return content;

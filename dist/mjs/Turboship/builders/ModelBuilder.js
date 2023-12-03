@@ -141,6 +141,8 @@ export class ModelBuilder {
                 return 'Schema.Types.ObjectId';
             case 'String':
                 return 'String';
+            case 'Text':
+                return 'String';
             case 'Boolean':
                 return 'Boolean';
             case 'Date':
@@ -149,17 +151,28 @@ export class ModelBuilder {
                 return 'Date';
             case 'Number':
                 return 'Number';
+            case 'Map':
+                return 'Map';
             case 'Integer':
                 return 'BigInt';
         }
     }
     buildMongoose() {
+        function getRelationType(name) {
+            return `{ type: Schema.Types.ObjectId, ref: "${capitalize(name)}" }`;
+        }
         const relationMap = {
             otm: function (relation) {
-                return `{ type: Schema.Types.ObjectId, ref: "${relation.name}" }`;
+                return `[${getRelationType(relation.name)}]`;
+            },
+            oto: function (relation) {
+                return `${getRelationType(relation.name)}`;
             },
             mto: function (relation) {
-                return `[{ type: Schema.Types.ObjectId, ref: '${relation.name}' }]`;
+                return `${getRelationType(relation.name)}`;
+            },
+            mtm: function (relation) {
+                return `[${getRelationType(relation.name)}]`;
             },
         };
         function buildRequired(required) {
@@ -171,10 +184,7 @@ export class ModelBuilder {
             const { type, required, enumeratorType, relation, name } = field;
             const fieldName = name || f;
             if (type === 'relation') {
-                // 1:1, 1:many, many:1, many:many
-                // Need to support all the different relationships.
-                // Guarding against null values for relationships
-                const fn = relationMap[type];
+                const fn = relationMap[relation.type];
                 if (fn) {
                     let item = `${fieldName}: {
               ${buildRequired(required)}
@@ -184,11 +194,15 @@ export class ModelBuilder {
                 }
             }
             else if (type == 'enumerator' || type == 'enumeratorMulti') {
+                function getEnumType(t) {
+                    if (t === 'enumerator')
+                        return `${capitalize(enumeratorType)}`;
+                    if (t === 'enumeratorMulti')
+                        return `[${capitalize(enumeratorType)}]`;
+                }
                 const item = `${fieldName}: {
           ${required != undefined ? `required: ${required},` : ''}
-          type: [
-            ${capitalize(enumeratorType)}
-          ],
+          type: ${getEnumType(type)},
         }`;
                 values.push(item);
             }
@@ -227,3 +241,4 @@ export class ModelBuilder {
         return keyValue;
     };
 }
+// let shown = false

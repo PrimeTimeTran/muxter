@@ -37,12 +37,7 @@ class Framework {
             basePath = `/Users/loi/Desktop/work/turboship/muxter/src/Turboship/nuxt`;
         }
         // 12/2/23 - 2.12
-        //   Local netlify dev server files dl no problem
-        //
-        //
-        //
-        //
-        //
+        //  - Local netlify dev server files dl no problem
         console.log({
             basePath,
             current: process.cwd(),
@@ -70,9 +65,6 @@ function getZippedFolderSync(dir, zip) {
     });
 }
 function getFilePathsRecursiveSync(dir) {
-    console.log({
-        dir,
-    });
     var results = [];
     if (!dir)
         return results;

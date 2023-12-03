@@ -42,6 +42,7 @@ export const Social: ({
     name: string;
     label: string;
     plural: string;
+    pluralL: string;
     attributes: ({
         validators: never[];
         validations: never[];
@@ -66,5 +67,4 @@ export const Social: ({
         label: string;
     })[];
     _id: string;
-    pluralL?: undefined;
 })[];

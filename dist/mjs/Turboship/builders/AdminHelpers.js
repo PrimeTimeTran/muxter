@@ -106,7 +106,7 @@ export function buildEntityForm(e) {
     import { reset } from '@formkit/core'
     const props = defineProps([
       'searching',
-      'fetchFiltered${capitalize(e.plural)}',
+      'fetchFiltered${e.pluralL}',
       'createForm',
       'clear',
     ])
@@ -114,7 +114,7 @@ export function buildEntityForm(e) {
 
     async function submit(fields) {
       if (props.searching) {
-        await props.fetchFiltered${capitalize(e.name)}s(fields)
+        await props.fetchFiltered${e.pluralL}(fields)
         return
       }
       const ${e.name} = add${capitalize(e.name)}(fields)
@@ -174,7 +174,7 @@ export function buildEntityForm(e) {
 }
 export function buildForm(e) {
     return `<script setup>
-      const props = defineProps(['searching', 'fetchFiltered${capitalize(e.plural)}', 'createForm'])
+      const props = defineProps(['searching', 'fetchFiltered${e.pluralL}', 'createForm'])
       const num = ref(0)
       const clearForm = () => {
         num.value = num.value + 1
@@ -318,7 +318,7 @@ export function buildEnumeratorHelpers(e) {
     });
     return enums
         .map((item) => `function get${capitalize(item)}Color(field, key) {
-          ${e.name == 'wizard' && item == 'house' ? 'key.toLowerCase()' : ''}
+          key = isNaN(key) ? key.toLowerCase() : key
           const weight = field == 'bg' ? 500 : 400
           const kolors = ${buildTabs(e, item)}
             return {

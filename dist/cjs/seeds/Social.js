@@ -10,7 +10,14 @@ exports.Social = [
         label: 'User',
         pluralL: 'Users',
         attributes: [
-            { name: '_id', type: 'string', _id: '5f6ab0bbfb54cf51242ddb6a', validators: [], validations: [], label: '_id' },
+            {
+                name: '_id',
+                type: 'string',
+                _id: '5f6ab0bbfb54cf51242ddb6a',
+                validators: [],
+                validations: [],
+                label: '_id',
+            },
             {
                 name: 'email',
                 type: 'string',
@@ -172,6 +179,7 @@ exports.Social = [
         name: 'comment',
         label: 'Comment',
         plural: 'comments',
+        pluralL: 'Comments',
         attributes: [
             {
                 validators: [],
@@ -216,6 +224,7 @@ exports.Social = [
         name: 'friendship',
         label: 'Friendship',
         plural: 'friendships',
+        pluralL: 'Friendships',
         attributes: [
             {
                 validators: [],
@@ -251,6 +260,7 @@ exports.Social = [
         name: 'reaction',
         label: 'Reaction',
         plural: 'reactions',
+        pluralL: 'Reactions',
         attributes: [
             {
                 validators: [],
@@ -286,6 +296,7 @@ exports.Social = [
         name: 'chat',
         label: 'Chat',
         plural: 'chats',
+        pluralL: 'Chats',
         attributes: [
             {
                 validators: [],
@@ -330,6 +341,7 @@ exports.Social = [
         name: 'userChat',
         label: 'UserChat',
         plural: 'userChats',
+        pluralL: 'UserChats',
         attributes: [
             {
                 validators: [],
@@ -365,6 +377,7 @@ exports.Social = [
         name: 'message',
         label: 'Message',
         plural: 'messages',
+        pluralL: 'Messages',
         attributes: [
             {
                 validators: [],
@@ -409,6 +422,7 @@ exports.Social = [
         name: 'referral',
         label: 'Referral',
         plural: 'referrals',
+        pluralL: 'Referrals',
         attributes: [
             {
                 validators: [],
@@ -435,6 +449,7 @@ exports.Social = [
         name: 'attachment',
         label: 'Attachment',
         plural: 'attachments',
+        pluralL: 'Attachments',
         attributes: [
             {
                 validators: [],

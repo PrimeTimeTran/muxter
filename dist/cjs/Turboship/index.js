@@ -9,9 +9,6 @@ const commander_1 = require("commander");
 const Framework_js_1 = __importDefault(require("./Framework.js"));
 const seeds_js_1 = __importDefault(require("../seeds/seeds.js"));
 const helpers_js_1 = require("./helpers.js");
-// 1. Make Turboship wrap JSZip
-// Have Turboship use JSZip to build source files, generate zip, return it
-// Impossible to format?
 class Turboship {
     constructor(entities) {
         this.supportedFrameworks = ['flutter', 'nuxt', 'rn'];
