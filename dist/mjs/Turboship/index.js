@@ -2,7 +2,6 @@ import chalk from 'chalk';
 import JSZip from 'jszip-sync';
 import { program } from 'commander';
 import Framework from './Framework.js';
-import seeds from '../seeds/seeds.js';
 import { prettify } from './helpers.js';
 class Turboship {
     supportedFrameworks = ['flutter', 'nuxt', 'rn'];
@@ -24,16 +23,15 @@ class Turboship {
         return program.opts();
     }
     buildEntities(entities = []) {
-        const entityTemplates = ['mint', 'bank', 'lms', 'social', 'pm', 'customer'];
-        const keys = Object.values(this.options.entities);
-        this.entities.wizard = seeds['lms'][0];
-        const chosen = keys.filter((k) => entityTemplates.includes(k));
-        chosen.forEach((name) => {
-            const collection = seeds[name];
-            collection.forEach((e) => {
-                this.entities[e.name] = e;
-            });
-        });
+        // const entityTemplates = ['mint', 'bank', 'lms', 'social', 'pm', 'customer']
+        // const keys = Object.values(this.options.entities)
+        // const chosen = keys.filter((k) => entityTemplates.includes(k))
+        // chosen.forEach((name) => {
+        //   const collection = seeds[name]
+        //   collection.forEach((e) => {
+        //     this.entities[e.name] = e
+        //   })
+        // })
         if (Object.keys(entities).length > 0) {
             entities?.forEach((e) => {
                 this.entities[e.name] = e;
@@ -43,7 +41,6 @@ class Turboship {
     setupFrameworks() {
         const keys = [this.options.backend];
         const frameworks = keys.filter((k) => this.supportedFrameworks.includes(k));
-        this.entities.wizard = seeds['lms'][0];
         for (let framework of frameworks) {
             const fw = new Framework(framework, this.options, this.entities, this.zip);
             fw.createDirectories();

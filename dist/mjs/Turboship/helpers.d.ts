@@ -1,7 +1,7 @@
 export function fileExt(options: any): "ts" | "js";
 export function writeToFile(name: any, content: any): void;
 export function prettify(root: any): Promise<void>;
-export function zipUp(root: any): void;
+export function zipUp(): void;
 export function camelize(str: any): any;
 export function getType(name: any, type: any, key: any): string | undefined;
 export function makeDirRecursive(fullPath: any): void;

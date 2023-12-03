@@ -5,30 +5,30 @@ export const navItems = [
     icon: 'fa-house',
   },
   {
-    url: '/todos',
-    name: 'Todos',
-    icon: 'fa-list',
+    url: '/administrator',
+    name: 'Administrator',
+    icon: 'fa-blog',
   },
 ]
 
 export const adminNavItems = [
   {
-    url: '/admin',
+    url: '/administrator',
     name: 'Admin',
     icon: 'fa-house',
   },
   {
-    url: '/admin/users',
+    url: '/administrator/users',
     name: 'Users',
     icon: 'fa-blog',
   },
   {
-    url: '/admin/wizards',
+    url: '/administrator/wizards',
     name: 'Wizards',
     icon: 'fa-hat-wizard',
   },
   {
-    url: '/admin/about',
+    url: '/administrator/about',
     name: 'About',
     icon: 'fa-code',
   },

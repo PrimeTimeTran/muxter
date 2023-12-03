@@ -34,11 +34,20 @@ function writeToFile(name, content) {
 }
 exports.writeToFile = writeToFile;
 const capitalize = (word) => {
-    const firstLetter = word === null || word === void 0 ? void 0 : word.charAt(0);
-    const firstLetterCap = firstLetter.toUpperCase();
-    const remainingLetters = word.slice(1);
-    const capitalizedWord = firstLetterCap + remainingLetters;
-    return capitalizedWord;
+    try {
+        const firstLetter = word === null || word === void 0 ? void 0 : word.charAt(0);
+        const firstLetterCap = firstLetter.toUpperCase();
+        const remainingLetters = word.slice(1);
+        const capitalizedWord = firstLetterCap + remainingLetters;
+        return capitalizedWord;
+    }
+    catch (error) {
+        console.log({
+            error,
+            message: 'Only strings can be capitalized. Related entity missing.',
+        });
+        return word;
+    }
 };
 exports.capitalize = capitalize;
 function prettify(root) {
@@ -51,12 +60,12 @@ function prettify(root) {
                 return;
             }
             (0, exports.log)('Cleaned: ', 'by Prettier', 'magenta');
-            zipUp(root);
+            zipUp();
         });
     });
 }
 exports.prettify = prettify;
-function zipUp(root) {
+function zipUp() {
     const folderPath = path_1.default.join('/tmp/turboship');
     const outputZipFilePath = '/tmp/muxter.zip';
     const output = fs_1.default.createWriteStream(outputZipFilePath);

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <NuxtLink class="cursor-pointer" href="/">
+    <NuxtLink
+      class="cursor-pointer"
+      href="/"
+    >
       <img :src="imageSource" />
     </NuxtLink>
   </div>
@@ -17,7 +20,9 @@ function setupRemote() {
   })
 
   const initializeImageSource = () => {
-    imageSource.value = isDark.value ? 'https://i.imgur.com/EP68Vcc.png' : 'https://i.imgur.com/0AtZKAM.png'
+    imageSource.value = isDark.value
+      ? 'https://i.imgur.com/EP68Vcc.png'
+      : 'https://i.imgur.com/0AtZKAM.png'
   }
 
   onMounted(() => {
@@ -37,7 +42,9 @@ function setupLocal() {
   })
 
   const initializeImageSource = () => {
-    imageSource.value = isDark.value ? '~/assets/images/logo-white.png' : '~/assets/images/logo-dark.png'
+    imageSource.value = isDark.value
+      ? '~/assets/images/logo-white.png'
+      : '~/assets/images/logo-dark.png'
   }
 
   onMounted(() => {

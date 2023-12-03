@@ -7,7 +7,6 @@ const chalk_1 = __importDefault(require("chalk"));
 const jszip_sync_1 = __importDefault(require("jszip-sync"));
 const commander_1 = require("commander");
 const Framework_js_1 = __importDefault(require("./Framework.js"));
-const seeds_js_1 = __importDefault(require("../seeds/seeds.js"));
 const helpers_js_1 = require("./helpers.js");
 class Turboship {
     constructor(entities) {
@@ -29,16 +28,15 @@ class Turboship {
         return commander_1.program.opts();
     }
     buildEntities(entities = []) {
-        const entityTemplates = ['mint', 'bank', 'lms', 'social', 'pm', 'customer'];
-        const keys = Object.values(this.options.entities);
-        this.entities.wizard = seeds_js_1.default['lms'][0];
-        const chosen = keys.filter((k) => entityTemplates.includes(k));
-        chosen.forEach((name) => {
-            const collection = seeds_js_1.default[name];
-            collection.forEach((e) => {
-                this.entities[e.name] = e;
-            });
-        });
+        // const entityTemplates = ['mint', 'bank', 'lms', 'social', 'pm', 'customer']
+        // const keys = Object.values(this.options.entities)
+        // const chosen = keys.filter((k) => entityTemplates.includes(k))
+        // chosen.forEach((name) => {
+        //   const collection = seeds[name]
+        //   collection.forEach((e) => {
+        //     this.entities[e.name] = e
+        //   })
+        // })
         if (Object.keys(entities).length > 0) {
             entities === null || entities === void 0 ? void 0 : entities.forEach((e) => {
                 this.entities[e.name] = e;
@@ -48,7 +46,6 @@ class Turboship {
     setupFrameworks() {
         const keys = [this.options.backend];
         const frameworks = keys.filter((k) => this.supportedFrameworks.includes(k));
-        this.entities.wizard = seeds_js_1.default['lms'][0];
         for (let framework of frameworks) {
             const fw = new Framework_js_1.default(framework, this.options, this.entities, this.zip);
             fw.createDirectories();

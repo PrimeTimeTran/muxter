@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('tailwind-scrollbar-hide'),
+    require('daisyui'),
+  ],
   content: [
     './app.vue',
     './error.vue',
@@ -63,9 +68,4 @@ export default {
       }),
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('tailwind-scrollbar-hide'),
-    require('flowbite/plugin'),
-  ],
 }

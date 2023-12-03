@@ -1,12 +1,14 @@
 <script setup>
 const percent = ref(0)
-const showMenu = ref(false)
 const client = process.browser && window.location.pathname != '/login'
 function appInit() {
   if (client) {
     window?.addEventListener('scroll', () => {
-      let winScroll = document.body.scrollTop || document.documentElement.scrollTop
-      let height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+      let winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop
+      let height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight
 
       percent.value = Math.round((winScroll / height) * 100)
     })
@@ -15,38 +17,78 @@ function appInit() {
 function appData() {
   if (client) return { percent }
 }
-function toggleNavbar() {
-  showMenu.value = !showMenu.value
-}
-const route = useRoute()
 </script>
 
 <template>
-  <div x-cloak :x-data="appData()" :x-init="appInit()" class="flex flex-col items-center justify-center">
-    <The.NavbarScrollSpy :percent="percent" />
-    <nav
-      class="z-40 fixed top-0 left-0 right-0 w-screen flex flex-wrap items-center justify-around bg-white dark:bg-neutral-950 backdrop-blur-md border-b-2 border-b-gray-300 dark:border-b-zinc-800"
-    >
-      <div
-        class="flex flex-wrap flex-grow items-center justify-between md:flex-col md:flex-start lg:flex-row lg:px-3 px-3"
-      >
-        <div class="flex relative w-full justify-between lg:w-auto px-4 lg:justify-start py-1">
-          <The.NavbarLogo />
-          <NuxtLink
-            type="button"
-            @click="toggleNavbar"
-            class="flex items-center lg:hidden text-gray-500 dark:hover:opacity-50 cursor-pointer text-xl leading-none border border-solid border-transparent rounded bg-transparent outline-none focus:outline-none hover:cursor-pointer"
-          >
-            <FontAwesomeIcon icon="fa-solid fa-bars" />
-          </NuxtLink>
-        </div>
+  <div
+    x-cloak
+    :x-data="appData()"
+    :x-init="appInit()"
+    class="flex flex-col items-center justify-center"
+  >
+    <TheNavbarScrollSpy :percent="percent" />
+    <div class="drawer">
+      <input
+        id="my-drawer-3"
+        type="checkbox"
+        class="drawer-toggle"
+      />
+      <div class="drawer-content flex flex-col">
         <div
-          class="flex flex-col-reverse px-12 flex-auto md:px-4 md:flex-row lg:flex lg:flex-grow md:min-w-100 md:min-w-full lg:min-w-0"
-          v-bind:class="{ hidden: !showMenu, flex: showMenu }"
+          id="TheNavBar"
+          class="w-full navbar shadow-md bg-white dark:bg-slate-950"
         >
-          <The.NavbarItems />
+          <div class="flex-none lg:hidden">
+            <label
+              for="my-drawer-3"
+              aria-label="open sidebar"
+              class="btn btn-square btn-ghost"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="inline-block w-6 h-6 stroke-current"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </label>
+          </div>
+          <div class="px-2 mx-2">
+            <TheNavbarLogo />
+          </div>
+          <div class="flex-none hidden lg:block ml-auto">
+            <ul class="menu menu-horizontal">
+              <TheNavbarItems />
+            </ul>
+          </div>
         </div>
       </div>
-    </nav>
+      <div class="drawer-side">
+        <label
+          for="my-drawer-3"
+          aria-label="close sidebar"
+          class="drawer-overlay"
+        ></label>
+        <ul
+          class="menu p-4 w-80 min-h-full shadow-md bg-white dark:bg-slate-950"
+        >
+          <TheNavbarItems />
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.navbar-small {
+  min-height: 2rem;
+  height: 1.875rem;
+  max-height: 1.875rem;
+}
+</style>

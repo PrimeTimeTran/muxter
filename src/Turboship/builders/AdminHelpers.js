@@ -175,36 +175,38 @@ export function buildEntityForm(e) {
         </div>
       </FormKit>
       </div>
-    </template>`
+    </template>
+    <style></style>
+    `
 }
 
 export function buildForm(e) {
   return `<script setup>
-      const props = defineProps(['searching', 'fetchFiltered${e.pluralL}', 'createForm'])
-      const num = ref(0)
-      const clearForm = () => {
-        num.value = num.value + 1
-      }
-      </script>
-      <template>
-        <div
-          class="w-100 dark:bg-neutral-950 p-3 main-container"
-          :class="{ hidden: !searching && !createForm }"
-        >
-          <TransitionGroup
-            name="fade-move"
-            class="container"
-          >
-            <div :key="num">
-              <Admin${e.pluralL}EntityForm
-                :clear="clearForm"
-                :searching="searching"
-                :fetchFiltered${e.pluralL}="fetchFiltered${e.pluralL}"
-              />
-            </div>
-          </TransitionGroup>
+    const props = defineProps(['searching', 'fetchFiltered${e.pluralL}', 'createForm'])
+    const num = ref(0)
+    const clearForm = () => {
+      num.value = num.value + 1
+    }
+  </script>
+  <template>
+    <div
+      class="w-100 dark:bg-neutral-950 p-3 main-container"
+      :class="{ hidden: !searching && !createForm }"
+    >
+      <TransitionGroup
+        name="fade-move"
+        class="container"
+      >
+        <div :key="num">
+          <Admin${e.pluralL}EntityForm
+            :clear="clearForm"
+            :searching="searching"
+            :fetchFiltered${e.pluralL}="fetchFiltered${e.pluralL}"
+          />
         </div>
-      </template>`
+      </TransitionGroup>
+    </div>
+  </template>`
 }
 
 export function buildTableRows(e) {
@@ -285,7 +287,6 @@ export function buildTableRows(e) {
 }
 
 export function buildTabs(e, prop) {
-  // [ ] Add custom enumerator color for each item.
   const houseKeys = Object.entries(e.fields[prop].enumerators)
   const keyMap = {}
   houseKeys.forEach(([k, v], idx) => (keyMap[k] = colors[idx]))
@@ -330,7 +331,7 @@ export function buildEnumeratorHelpers(e) {
     .map(
       (item) =>
         `function get${capitalize(item)}Color(field, key) {
-          key = isNaN(key) ? key.toLowerCase() : key
+          key = isNaN(key) ? key?.toString()?.toLowerCase() : key
           const weight = field == 'bg' ? 500 : 400
           const kolors = ${buildTabs(e, item)}
             return {

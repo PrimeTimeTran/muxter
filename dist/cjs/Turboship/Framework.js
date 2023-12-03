@@ -33,15 +33,10 @@ class Framework {
     }
     zipBaseDirectory() {
         let basePath = `/var/task/node_modules/@primetimetran/muxter/src/Turboship/nuxt`;
-        if (false) {
+        let isDeveloping = false;
+        if (isDeveloping) {
             basePath = `/Users/loi/Desktop/work/turboship/muxter/src/Turboship/nuxt`;
         }
-        // 12/2/23 - 2.12
-        //  - Local netlify dev server files dl no problem
-        console.log({
-            basePath,
-            current: process.cwd(),
-        });
         getZippedFolderSync(basePath, this.zip);
         return this.zip;
     }

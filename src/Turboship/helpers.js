@@ -21,11 +21,19 @@ export function writeToFile(name, content) {
 }
 
 export const capitalize = (word) => {
-  const firstLetter = word?.charAt(0)
-  const firstLetterCap = firstLetter.toUpperCase()
-  const remainingLetters = word.slice(1)
-  const capitalizedWord = firstLetterCap + remainingLetters
-  return capitalizedWord
+  try {
+    const firstLetter = word?.charAt(0)
+    const firstLetterCap = firstLetter.toUpperCase()
+    const remainingLetters = word.slice(1)
+    const capitalizedWord = firstLetterCap + remainingLetters
+    return capitalizedWord
+  } catch (error) {
+    console.log({
+      error,
+      message: 'Only strings can be capitalized. Related entity missing.',
+    })
+    return word
+  }
 }
 
 export async function prettify(root) {
@@ -37,11 +45,11 @@ export async function prettify(root) {
       return
     }
     log('Cleaned: ', 'by Prettier', 'magenta')
-    zipUp(root)
+    zipUp()
   })
 }
 
-export function zipUp(root) {
+export function zipUp() {
   const folderPath = path.join('/tmp/turboship')
   const outputZipFilePath = '/tmp/muxter.zip'
 

@@ -63,13 +63,15 @@ class AdminBuilder {
     }
     static buildAside(entities) {
         function buildAsideItems() {
-            return entities.map((e) => {
+            return entities
+                .map((e) => {
                 return `<p
           class="text-lg truncate text-gray-500 dark:text-white hover:text-green-400 dark:hover:text-green-400"
         >
           <a href="/Administrator/${e.plural}">${e.label}</a>
         </p>`;
-            });
+            })
+                .join('');
         }
         return `<script setup>
       const { isOpen, toggleOpen } = useToggleOpen()
@@ -78,16 +80,14 @@ class AdminBuilder {
       <template>
         <aside
           :class="isOpen ? 'w-64' : 'w-26'"
-          class="hidden sm:flex overflow-y-scroll h-screen z-30 ease-in-out transition-all duration-300 bg-white dark:bg-neutral-950 border-r-2 dark:border-r-zinc-800"
+          class="hidden sm:flex overflow-y-scroll h-screen z-30 ease-in-out transition-all duration-300 bg-white dark:bg-slate-950 border-r-2 dark:border-r-zinc-800"
         >
-          <div
-            class="flex px-3"
-            @click="toggleOpen"
-          >
+          <div class="flex px-3">
             <div :class="{ 'menu-trigger-open': isOpen }">
               <div
-                class="menu-link-wrapper bg-white dark:bg-neutral-950 border-t-2 border-t-gray-100 dark:border-t-zinc-800 w-26"
+                @click="toggleOpen"
                 :class="{ 'w-64': isOpen }"
+                class="menu-link-wrapper bg-white dark:bg-slate-950 border-t-2 border-t-gray-100 dark:border-t-zinc-800 w-26"
               >
                 <div class="menu-link">
                   <span class="lines"></span>
@@ -95,14 +95,10 @@ class AdminBuilder {
               </div>
               <div
                 v-if="isOpen"
-                class="pt-20"
               >
-                ${buildAsideItems().join()}
+                ${buildAsideItems()}
               </div>
-              <div
-                v-else
-                class="pt-20"
-              >
+              <div v-else >
                 <div
                   class="flex flex-col items-middle justify-center dark:text-white space-y-12"
                 >
@@ -110,27 +106,19 @@ class AdminBuilder {
                     size="2x"
                     class="text-gray-400 dark:text-white hover:text-green-400 dark:hover:text-green-400"
                     icon="fa-solid fa-bars"
+                    @click="toggleOpen"
                   />
-                  <FontAwesomeIcon
-                    size="2x"
-                    class="text-gray-400 dark:text-white hover:text-green-400 dark:hover:text-green-400"
-                    icon="fa-solid fa-blog"
-                  />
-                  <FontAwesomeIcon
-                    size="2x"
-                    class="text-gray-400 dark:text-white hover:text-green-400 dark:hover:text-green-400"
-                    icon="fa-solid fa-hat-wizard"
-                  />
-                  <FontAwesomeIcon
-                    size="2x"
-                    class="text-gray-400 dark:text-white hover:text-green-400 dark:hover:text-green-400"
-                    icon="fa-solid fa-user"
-                  />
-                  <FontAwesomeIcon
-                    size="2x"
-                    class="text-gray-400 dark:text-white hover:text-green-400 dark:hover:text-green-400"
-                    icon="fa-solid fa-address-card"
-                  />
+                  ${entities
+            .map((e) => {
+            return `<a href="/administrator/${e.plural}">
+                      <FontAwesomeIcon
+                        size="2x"
+                        class="text-gray-400 dark:text-white hover:text-green-400 dark:hover:text-green-400"
+                        icon="fa-solid fa-hat-wizard"
+                      />
+                    </a>`;
+        })
+            .join('')}
                 </div>
               </div>
             </div>
@@ -400,7 +388,7 @@ class AdminBuilder {
       </script>
       <template>
         <div
-          class="flex flex-col overflow-scroll justify-center rounded-lg border border-gray-200 dark:border-gray-600 shadow-md pb-12"
+          class="flex flex-col overflow-scroll justify-center rounded-lg border border-gray-200 dark:border-gray-600 shadow-md pb-12 bg-white dark:bg-slate-950"
         >
           <Admin${e.pluralL}Form
             :searching="searching"

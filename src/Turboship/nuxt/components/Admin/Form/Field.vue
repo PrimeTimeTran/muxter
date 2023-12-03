@@ -12,7 +12,8 @@ const props = defineProps({
   multiple: { type: Boolean, default: false },
 })
 
-const inputClasses = 'min-w-full p-1 rounded border dark:bg-neutral-950 dark:text-white border dark:border-gray-700'
+const inputClasses =
+  'min-w-full p-1 rounded border dark:bg-neutral-950 dark:text-white border dark:border-gray-700 bg-white'
 const messageClasses = 'text-red-500 dark:text-red-300 absolute'
 const outerClasses = 'flex flex-grow flex-col rounded'
 const allClasses = {
