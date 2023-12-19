@@ -2,7 +2,7 @@
   <div
     class="flex flex-grow flex-col lg:items-center lg:align-middle lg:flex-row space-x-5 border-t border-t-white border-b-white lg:border-t-0 lg:border-b-0"
   >
-    <div id="toggleThemeButton" @click="handleToggle()" class="flex sm:flex-col lg:flex-row ml-3 py-3">
+    <div @click="toggleTheme()" class="flex sm:flex-col lg:flex-row ml-3 py-3">
       <input type="checkbox" name="light-switch" class="light-switch sr-only" />
       <label for="light-switch" class="relative cursor-pointer p-2 hover:text-gray-900 dark:hover:text-yellow-500">
         <svg
@@ -56,17 +56,3 @@
     </NuxtLink>
   </div>
 </template>
-
-<script setup>
-import { useDark, useToggle } from '@vueuse/core'
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
-
-const handleToggle = () => {
-  var htmlElement = document.getElementsByTagName('html')[0]
-  const newColor = isDark.value ? 'var(--background-color-light)' : 'var(--background-color-dark)'
-  document.body.style.background = newColor
-  htmlElement.style.backgroundColor = newColor
-  toggleDark()
-}
-</script>

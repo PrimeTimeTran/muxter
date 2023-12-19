@@ -5,6 +5,7 @@ export function zipUp(): void;
 export function camelize(str: any): any;
 export function getType(name: any, type: any, key: any): string | undefined;
 export function makeDirRecursive(fullPath: any): void;
+export function buildOptions(a: any): string;
 export function log(field: any, val: any, color?: string): void;
 export function capitalize(word: any): any;
 export const colors: string[];

@@ -1,11 +1,10 @@
-// const protectedRoutes = ['/admin', '/api']
 const protectedRoutes: string[] = []
 
 function isProtectedPath(path: string) {
   return protectedRoutes.some((route) => path.startsWith(route))
 }
 
-export default defineEventHandler(async (e) => {
+export default defineEventHandler(async (e: any) => {
   const token = e.node.req.rawHeaders[1]?.split(' ')[1]
   if (isProtectedPath(e.path) && !token) {
     throw createError({

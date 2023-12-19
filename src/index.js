@@ -1,4 +1,3 @@
-import seeds from './seeds/seeds.js'
-import Turboship from './Turboship/index.js'
+import Turboship from './Turboship/Turboship.js'
 
-export { Turboship, seeds }
+export { Turboship }

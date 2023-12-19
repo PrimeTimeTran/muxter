@@ -1,6 +1,6 @@
 {
   "name": "@primetimetran/muxter",
-  "version": "1.0.45",
+  "version": "1.0.50",
   "description": "",
   "homepage": "https://www.npmjs.com/package/@primetimetran/muxter",
   "scripts": {
@@ -27,6 +27,7 @@
     "jszip": "^3.10.1",
     "jszip-sync": "^3.2.1-sync",
     "lodash": "^4.17.21",
+    "typescript": "^5.3.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {

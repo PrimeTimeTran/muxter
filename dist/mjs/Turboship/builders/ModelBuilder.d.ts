@@ -12,7 +12,7 @@ export class ModelBuilder {
         key: string;
         enumerators: any;
     }[])[];
-    getType(type: any): "Schema.Types.Decimal128" | "Schema.Types.ObjectId" | "String" | "Boolean" | "Date" | "Number" | "Map" | "BigInt" | undefined;
-    buildMongoose(): string;
+    getType(type: any): "Boolean" | "String" | "Date" | "Number" | "BigInt" | "Schema.Types.Decimal128" | "Map" | "[]" | "Schema.Types.ObjectId" | undefined;
+    buildSchema(): string;
     buildEnumerators: (name: any, items: any) => string;
 }

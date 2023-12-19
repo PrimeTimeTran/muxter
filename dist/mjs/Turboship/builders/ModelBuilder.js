@@ -1,5 +1,8 @@
 import path from 'path';
 import { camelize, getType, capitalize } from '../helpers.js';
+class Type {
+    static enums = ['enumerator', 'enumeratorMulti'];
+}
 export class ModelBuilder {
     constructor(entities, options) {
         this.entities = entities;
@@ -7,9 +10,7 @@ export class ModelBuilder {
         this.path = this.getModelPath();
     }
     getModelPath() {
-        // Get the current working directory
         const currentWorkingDir = process.cwd();
-        // Calculate the path to the Models directory
         return path.join(currentWorkingDir, 'src', 'Models');
     }
     buildEntities = () => {
@@ -23,21 +24,24 @@ export class ModelBuilder {
         if (attributes) {
             attributes.forEach((f) => {
                 if (f.name !== '_id') {
-                    fields[f.name] = { ...f };
-                    delete fields[f.name]._id;
-                    if (f.type === 'enumerator' || f.type === 'enumeratorMulti') {
-                        fields[f.name].enumeratorType = 'string';
-                        fields[f.name].enumerators = {};
-                        const options = f.options?.split(',');
+                    let field = {};
+                    field = { ...f };
+                    delete field._id;
+                    if (Type.enums.includes(field.type)) {
+                        field.enumerators = {};
+                        field.enumeratorType = 'string';
+                        const options = field.options?.split(',');
                         if (options) {
+                            field.options = field.options;
                             options.forEach((o) => {
-                                fields[f.name].enumerators[o] = {
+                                field.enumerators[o] = {
                                     val: o,
                                     color: null,
                                 };
                             });
                         }
                     }
+                    fields[f.name] = field;
                 }
             });
             this.e.fields = fields;
@@ -48,12 +52,7 @@ export class ModelBuilder {
     buildModel = () => {
         const { e, options, e: { name, label, attributes }, } = this;
         let fields;
-        if (name == 'wizard') {
-            fields = this.e.fields;
-        }
-        else {
-            fields = this.buildTransformation(attributes);
-        }
+        fields = this.buildTransformation(attributes);
         const [values, enumerators] = this.generateFields(fields, name);
         const buildImports = () => {
             if (options.typescript) {
@@ -61,23 +60,27 @@ export class ModelBuilder {
         import { z } from 'zod'
         import { Model, Document } from 'mongoose'
         import { defineMongooseModel } from '#nuxt/mongoose'
+        import { Auditor } from './Audit/Audit'
         `;
             }
             return `
       import mongoose, { Schema } from 'mongoose'
+      import { Auditor } from './Audit/Audit'
       `;
         };
         const buildEntitySchema = () => {
-            if (!options.typescript)
-                return '';
-            return `export const ${e.label}Schema = z.object({
-        ${values}
-      })`;
+            if (options.typescript) {
+                return `export const ${e.label}Schema = z.object({
+          ${values}
+        })`;
+            }
+            return '';
         };
         const buildZodType = () => {
-            if (!options.typescript)
-                return '';
-            return `export type ${label}Type = z.infer<typeof ${label}Schema>`;
+            if (options.typescript) {
+                return `export type ${label}Type = z.infer<typeof ${label}Schema>`;
+            }
+            return '';
         };
         const buildNuxtMongoose = () => {
             if (options.typescript) {
@@ -89,6 +92,7 @@ export class ModelBuilder {
           schema: { ...${name} },
           options: {},
           hooks(schema) {
+            Auditor.addHooks(schema)
             schema.pre('find', function (this: Combined, next) {
               console.log('${label} hook pre find')
               next()
@@ -100,9 +104,13 @@ export class ModelBuilder {
           },
         })`;
             }
-            return `export const ${label} = mongoose.model('${label}', {
-        ${this.buildMongoose(e)}
-      })`;
+            return `const ${name}Schema = new Schema({
+          ${this.buildSchema(e)}
+        })
+        Auditor.addHooks(${name}Schema)
+        export { ${name}Schema }
+        export const ${label} = mongoose.model('${label}', ${name}Schema)
+      `;
         };
         const content = `
       ${buildImports()}
@@ -119,7 +127,7 @@ export class ModelBuilder {
         const enumerators = [];
         for (const key of keys) {
             const { type, required } = fields[key];
-            if (type === 'enumerator' || type === 'enumeratorMulti') {
+            if (Type.enums.includes(type)) {
                 let strings;
                 if (typeof fields[key].enumerators[0] !== 'string') {
                     strings = Object.keys(fields[key].enumerators).map((k) => k);
@@ -135,10 +143,8 @@ export class ModelBuilder {
     };
     getType(type) {
         switch (type) {
-            case 'Decimal':
-                return 'Schema.Types.Decimal128';
-            case 'Relation':
-                return 'Schema.Types.ObjectId';
+            case 'Boolean':
+                return 'Boolean';
             case 'String':
                 return 'String';
             case 'Text':
@@ -151,69 +157,58 @@ export class ModelBuilder {
                 return 'Date';
             case 'Number':
                 return 'Number';
-            case 'Map':
-                return 'Map';
             case 'Integer':
                 return 'BigInt';
+            case 'Decimal':
+                return 'Schema.Types.Decimal128';
+            case 'Map':
+                return 'Map';
+            case 'Array':
+                return '[]';
+            case 'Relation':
+                return 'Schema.Types.ObjectId';
         }
     }
-    buildMongoose() {
-        function getRelationType(name) {
-            return `{ type: Schema.Types.ObjectId, ref: "${capitalize(name)}" }`;
-        }
-        const relationMap = {
-            otm: function (relation) {
-                return `[${getRelationType(relation.name)}]`;
-            },
-            oto: function (relation) {
-                return `${getRelationType(relation.name)}`;
-            },
-            mto: function (relation) {
-                return `${getRelationType(relation.name)}`;
-            },
-            mtm: function (relation) {
-                return `[${getRelationType(relation.name)}]`;
-            },
-        };
+    buildSchema() {
         function buildRequired(required) {
-            return `${required != undefined ? `required: ${required},` : ''}`;
+            return required ? `required: ${required},` : '';
         }
         const values = [];
         for (const f in this.e.fields) {
             const field = this.e.fields[f];
-            const { type, required, enumeratorType, relation, name } = field;
+            const { type, required, enumeratorType, relation, name, options } = field;
             const fieldName = name || f;
+            let item;
             if (type === 'relation') {
-                const fn = relationMap[relation.type];
-                if (fn) {
-                    let item = `${fieldName}: {
-              ${buildRequired(required)}
-              type: ${fn(relation)},
-            }`;
-                    values.push(item);
+                item = '';
+                let relationType = relation.type;
+                if (relationType === 'mto' || relationType === 'oto') {
+                    item = `${name}: { type: Schema.Types.ObjectId, ref: '${capitalize(name)}', ${buildRequired(required)} }`;
+                }
+                else {
+                    item = `${name}: [{ type: Schema.Types.ObjectId, ref: '${capitalize(name)}' }]`;
                 }
             }
-            else if (type == 'enumerator' || type == 'enumeratorMulti') {
+            else if (Type.enums.includes(type)) {
                 function getEnumType(t) {
-                    if (t === 'enumerator')
-                        return `${capitalize(enumeratorType)}`;
-                    if (t === 'enumeratorMulti')
-                        return `[${capitalize(enumeratorType)}]`;
+                    const name = capitalize(enumeratorType);
+                    return t === 'enumerator' ? name : `[${name}]`;
                 }
-                const item = `${fieldName}: {
-          ${required != undefined ? `required: ${required},` : ''}
+                item = `${fieldName}: {
+          ${buildRequired(required)}
           type: ${getEnumType(type)},
+          enum: [${options.split(',').map((i) => `'${i.trim()}'`)}]
         }`;
-                values.push(item);
             }
             else {
-                // Because FE entities dont match hardcoded entities 100% yet.
-                const item = `${fieldName}: {
-          type: ${this.getType(capitalize(type))},
-          ${required != undefined ? `required: ${required},` : ''}
+                let kind = this.getType(capitalize(type));
+                item = `${fieldName}: {
+          type: ${kind},
+          ${kind === 'Map' ? 'of: String,' : ''}
+          ${buildRequired(required)}
         }`;
-                values.push(item);
             }
+            values.push(item);
         }
         return values.join(',');
     }
@@ -241,4 +236,3 @@ export class ModelBuilder {
         return keyValue;
     };
 }
-// let shown = false

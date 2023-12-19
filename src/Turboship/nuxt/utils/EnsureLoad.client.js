@@ -44,13 +44,13 @@ export const scriptUrls = {
 }
 
 export function ensureLoad(url) {
-  if(!process.browser) return
-  console.log('Ensuring load: ', url)
-  if (url === scriptUrls.chart && typeof hotkeys === 'undefined') {
-    loadJS(url)
-  } else if (typeof hotkeys !== 'undefined') {
-    setupHotkeys()
-  } else {
-    loadJS(url)
-  }
+  // if(!process.browser) return
+  // console.log('Ensuring load: ', url)
+  // if (url === scriptUrls.chart && typeof hotkeys === 'undefined') {
+  //   loadJS(url)
+  // } else if (typeof hotkeys !== 'undefined') {
+  //   setupHotkeys()
+  // } else {
+  //   loadJS(url)
+  // }
 }

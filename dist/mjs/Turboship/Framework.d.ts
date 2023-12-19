@@ -13,15 +13,10 @@ export namespace frameworkMap {
     namespace nuxt {
         let name: string;
         let version: string;
-        let rootDirectories: string[];
         let adminUIFiles: string[];
-        let adminBuildMethodMap: {
-            'Form.vue': string;
-            'Table.vue': string;
-            'EntityForm.vue': string;
-        };
-        let adminGlobals: string[];
         let apiFiles: string[];
+        function buildGlobalMeta(entities: any): string;
+        let rootDirectories: string[];
         let apiContent: {
             'index.get.': (label: any) => string;
             'index.post.': (label: any) => string;

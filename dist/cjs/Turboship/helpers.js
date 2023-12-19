@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeDirRecursive = exports.colors = exports.getType = exports.camelize = exports.zipUp = exports.prettify = exports.capitalize = exports.writeToFile = exports.fileExt = exports.log = void 0;
+exports.buildOptions = exports.makeDirRecursive = exports.colors = exports.getType = exports.camelize = exports.zipUp = exports.prettify = exports.capitalize = exports.writeToFile = exports.fileExt = exports.log = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -120,17 +120,7 @@ function getType(name, type, key) {
     }
 }
 exports.getType = getType;
-exports.colors = [
-    'red',
-    'pink',
-    'purple',
-    'green',
-    'indigo',
-    'blue',
-    'teal',
-    'yellow',
-    'teal',
-];
+exports.colors = ['red', 'pink', 'purple', 'green', 'indigo', 'blue', 'teal', 'yellow', 'teal'];
 function makeDirRecursive(fullPath) {
     fs_1.default.mkdirSync(fullPath, { recursive: true }, (err) => {
         if (err) {
@@ -141,3 +131,13 @@ function makeDirRecursive(fullPath) {
     });
 }
 exports.makeDirRecursive = makeDirRecursive;
+function isEnumerator(type) {
+    return ['enumerator', 'enumeratorMulti'].includes(type);
+}
+function buildOptions(a) {
+    var _a, _b, _c, _d;
+    if (!isEnumerator(a.type))
+        return '';
+    return `options: [${(_d = (_c = (_b = (_a = a.options) === null || _a === void 0 ? void 0 : _a.replace(/(^,)|(,$)/g, '')) === null || _b === void 0 ? void 0 : _b.split(',')) === null || _c === void 0 ? void 0 : _c.sort((a, b) => a.localeCompare(b))) === null || _d === void 0 ? void 0 : _d.map((item) => `'${item.trim()}'`)}],`;
+}
+exports.buildOptions = buildOptions;

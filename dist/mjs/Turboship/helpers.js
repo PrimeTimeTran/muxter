@@ -95,17 +95,7 @@ export function getType(name, type, key) {
             break;
     }
 }
-export const colors = [
-    'red',
-    'pink',
-    'purple',
-    'green',
-    'indigo',
-    'blue',
-    'teal',
-    'yellow',
-    'teal',
-];
+export const colors = ['red', 'pink', 'purple', 'green', 'indigo', 'blue', 'teal', 'yellow', 'teal'];
 export function makeDirRecursive(fullPath) {
     fs.mkdirSync(fullPath, { recursive: true }, (err) => {
         if (err) {
@@ -114,4 +104,16 @@ export function makeDirRecursive(fullPath) {
             log('Create: ', fullPath, 'yellow');
         }
     });
+}
+function isEnumerator(type) {
+    return ['enumerator', 'enumeratorMulti'].includes(type);
+}
+export function buildOptions(a) {
+    if (!isEnumerator(a.type))
+        return '';
+    return `options: [${a.options
+        ?.replace(/(^,)|(,$)/g, '')
+        ?.split(',')
+        ?.sort((a, b) => a.localeCompare(b))
+        ?.map((item) => `'${item.trim()}'`)}],`;
 }

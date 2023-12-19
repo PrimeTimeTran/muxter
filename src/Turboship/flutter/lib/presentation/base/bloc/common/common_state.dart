@@ -1,0 +1,10 @@
+part of 'common_bloc.dart';
+
+@freezed
+class CommonState with _$CommonState {
+  const factory CommonState({
+    AppExceptionWrapper? appExceptionWrapper,
+    @Default(false) bool isLoading,
+    @Default(0) int loadingCount,
+  }) = _CommonState;
+}

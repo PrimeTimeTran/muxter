@@ -50,21 +50,11 @@ chartLabels.value = getData().labels
 </script>
 
 <template>
-  <div
-    class="flex flex-1 flex-col justify-between min-h-full shadow-xl p-4 rounded-lg bg-white text-gray-500 dark:bg-neutral-900"
-  >
+  <div class="flex flex-1 flex-col justify-between min-h-full shadow-xl p-4 rounded-lg text-gray-500">
     <div class="md:flex md:justify-between md:items-center">
       <div>
-        <h2
-          class="text-xl bg-white text-gray-500 dark:text-gray-500 dark:bg-neutral-900 font-bold leading-tight"
-        >
-          Sales
-        </h2>
-        <p
-          class="mb-2 text-gray-400 dark:text-gray-600 text-xl lg:text-2xl bg-white dark:bg-neutral-900"
-        >
-          Monthly Average
-        </p>
+        <h2 class="text-xl text-gray-500 dark:text-gray-500 font-bold leading-tight">Sales</h2>
+        <p class="mb-2 text-gray-400 dark:text-gray-600 text-xl lg:text-2xl">Monthly Average</p>
       </div>
 
       <!-- Legends -->
@@ -84,7 +74,7 @@ chartLabels.value = getData().labels
           class="p-0 m-0 z-10 shadow-lg rounded-lg absolute h-auto block"
           :style="`bottom: ${APP.tooltipY}px; left: ${APP.tooltipX}px`"
         >
-          <div class="shadow-xs rounded-lg bg-white p-2">
+          <div class="shadow-xs rounded-lg p-2">
             <div class="flex items-center justify-between text-sm">
               <div>Sales:</div>
               <div class="font-bold ml-2">
@@ -96,11 +86,8 @@ chartLabels.value = getData().labels
       </template>
 
       <!-- Bar Chart -->
-      <div class="flex flex-grow items-end mb-2 bg-white dark:bg-neutral-900">
-        <template
-          :key="chartData"
-          v-for="data in chartData"
-        >
+      <div class="flex flex-grow items-end mb-2">
+        <template :key="chartData" v-for="data in chartData">
           <div class="px-2 w-1/6">
             <div
               :style="{
@@ -128,18 +115,13 @@ chartLabels.value = getData().labels
       <!-- Labels -->
       <div
         class="border-t border-gray-400 dark:border-t-gray-950 mx-auto"
-        :style="`height: 1px; width: ${
-          100 - (1 / chartData.length) * 100 + 3
-        }%`"
+        :style="`height: 1px; width: ${100 - (1 / chartData.length) * 100 + 3}%`"
       />
       <div class="flex items-end">
         <template v-for="label in chartLabels">
           <div class="px-2 w-1/6">
             <div class="bg-red-600 relative">
-              <div
-                class="text-center absolute top-0 left-0 right-0 h-2 bg-neutral-400 mx-auto"
-                style="width: 1px"
-              />
+              <div class="text-center absolute top-0 left-0 right-0 h-2 bg-neutral-400 mx-auto" style="width: 1px" />
               <div
                 v-text="label"
                 class="text-center absolute top-0 left-0 right-0 mt-3 text-gray-700 text-sm mr-100 dark:text-gray-300"
@@ -152,23 +134,33 @@ chartLabels.value = getData().labels
   </div>
 </template>
 
-<style>
+<style scoped>
+:root {
+  --bg-color-dark: #111;
+  --bg-color-light: #eee;
+}
+
 .line {
   background: repeating-linear-gradient(
     to bottom,
-    #eee,
-    #eee 1px,
-    #fff 1px,
-    #fff 8%
+    var(--bg-color-light),
+    var(--bg-color-light) 1px,
+    transparent 1px,
+    transparent 8%
   );
 }
+
 .tick {
   background: repeating-linear-gradient(
     to right,
-    #eee,
-    #eee 1px,
-    #fff 1px,
-    #fff 5%
+    var(--bg-color-light),
+    var(--bg-color-light) 1px,
+    transparent 1px,
+    transparent 5%
   );
+}
+
+.dark-mode {
+  --bg-color-light: #111;
 }
 </style>
